@@ -1,0 +1,39 @@
+nav {
+    position: relative;
+    display: table;
+    float: right;
+    opacity: 0.7;
+    filter: alpha(opacity=70); /* For IE8 and earlier */
+    overflow: hidden;
+}
+nav a {
+    display: block;
+    margin: 0 20px;
+    width: 80px;
+    height: 25px;
+    text-align: center;
+    line-height: 29px;
+    text-decoration: none;
+    font-size: 15px;
+    font-family: monospace, '微軟正黑體';
+    color: white;
+}
+nav a:hover {
+    padding-bottom: 2px;
+    text-shadow: 3px 2px 2px black;
+}
+nav a:visited {
+    text-decoration: none;
+}
+nav .divider {
+    width: 1px;
+    height: 30px;
+    background: white;
+}
+nav .buttons-frame {
+    margin: 25px 30px;
+    animation: nav-intro 0.4s;
+    -o-animation: nav-intro 0.4s;
+    -moz-animation: nav-intro 0.4s;
+    -webkit-animation: nav-intro 0.4s;
+}

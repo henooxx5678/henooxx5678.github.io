@@ -1,0 +1,69 @@
+
+.header {
+    width: 100%;
+    height: 750px;
+    min-height: 100%;
+    position: relative;
+    z-index: 0;
+    background-color: white;
+}
+.header .logo {
+    height: 400px;
+    position: absolute;
+    margin: 15% 10%;
+}
+.header header {
+    height: 250px;
+    text-align: center;
+    font-size: 30px;
+}
+.header header h1 {
+    padding-top: 100px;
+}
+
+.big-title {
+    position: absolute;
+    margin-top: 25%;
+    margin-left: 450px;
+    font-size: 25px;
+    overflow: hidden;
+    animation: big-title-intro 0.7s;
+    -o-animation: big-title-intro 0.7s;
+    -moz-animation: big-title-intro 0.7s;
+    -webkit-animation: big-title-intro 0.7s;
+}
+
+.guide-frame {
+    min-height: 500px;
+}
+.guide-frame h1 {
+    margin: 50px 100px;
+    margin-right: 200px;
+    font-family: '標楷體';
+    font-size: 50px;
+    text-shadow: 2px 2px 10px #151515;
+}
+.guide-frame .learn-more {
+    margin: 0px auto;
+    margin-top: 170px;
+    width: 250px;
+    height: 60px;
+    position: relative;
+    display: block;
+    background: rgba(0, 0, 0, 0);
+    border: 2px solid white;
+    text-align: center;
+    line-height: 60px;
+    text-decoration: none;
+    color: white;
+    font-family: monospace;
+    font-size: 20px;
+}
+.guide-frame .learn-more:hover {
+    background: rgba(255, 255, 255, 0.8);
+    color: black;
+    transition: 0.3s;
+}
+.guide-frame .learn-more:visited {
+    text-decoration: none;
+}
