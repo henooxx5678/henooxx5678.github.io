@@ -2,7 +2,7 @@
     font-family: cursive, monospace, 'Microsoft JhengHei';
 }
 body {
-    margin: auto;
+    margin: 0;
     min-width: 890px;
 }
 .main-background {
@@ -25,13 +25,9 @@ body {
     position: relative;
     overflow: hidden;
 }
-footer {
-    background-color: black;
-    color: white;
-    text-align: center;
-    padding-top: 30px;
-    padding-bottom: 80px;
-    opacity: 0.9;
-    filter: alpha(opacity=90); /* For IE8 and earlier */
+.main-footer {
+    display: block;
+    width: 100%;
+    height: 310px;
 }
 

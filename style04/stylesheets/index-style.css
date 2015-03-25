@@ -37,11 +37,14 @@
     min-height: 500px;
 }
 .guide-frame h1 {
-    margin: 50px 100px;
-    margin-right: 200px;
-    font-family: '標楷體';
+    margin: 0 180px;
+    margin-top: 50px;
+    font-family: '微軟正黑體';
     font-size: 50px;
     text-shadow: 2px 2px 10px #151515;
+}
+.guide-frame p {
+    margin: 0 180px;
 }
 .guide-frame .learn-more {
     margin: 0px auto;

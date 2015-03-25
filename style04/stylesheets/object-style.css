@@ -13,3 +13,7 @@
     margin: 0 auto;
     margin-bottom: 40px;
 }
+.apply-frame {
+    margin: 0 auto;
+    display: table;
+}
