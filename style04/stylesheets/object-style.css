@@ -17,3 +17,38 @@
     margin: 0 auto;
     display: table;
 }
+.teacher-title {
+    height: 200px;
+    font-size: 50px;
+    line-height: 200px;
+    padding-left: 500px;
+    font-weight: bold;
+}
+
+#crispy-image-frame {
+    position: absolute;
+    display: inline-block;
+    width: 300px;
+    height: 200px;
+    margin-top: -100px;
+    margin-left: 100px;
+    transition-duration: 0.5s;
+}
+#crispy-image {
+    width: 700px;
+    margin-left: -200px;
+    margin-top: -40px;
+    transition-duration: 0.5s;
+    transition-delay: 0.05s;
+}
+#crispy-image-frame:hover {
+    width: 690px;
+    height: 460px;
+    transition-duration: 0.5s;
+}
+#crispy-image:hover {
+    margin-left: -10px;
+    margin-top: 0;
+    transition-duration: 0.5s;
+    transition-delay: 0.05s;
+}

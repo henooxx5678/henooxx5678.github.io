@@ -80,16 +80,6 @@
         width: calc(100% - 150px);
     }
 }
-@-webkit-keyframes page-content-intro {
-    from {
-        padding-left: 100px;
-        width: calc(100% - 150px);
-    }
-    20% {
-        padding-left: 100px;
-        width: calc(100% - 150px);
-    }
-}
 @-o-keyframes page-content-intro {
     from {
         padding-left: 100px;
@@ -112,12 +102,10 @@
 }
 @-webkit-keyframes page-content-intro {
     from {
-        padding-left: 100px;
-        width: calc(100% - 150px);
+        padding-left: 50px;
     }
     20% {
-        padding-left: 100px;
-        width: calc(100% - 150px);
+        padding-left: 50px;
     }
 }
 
