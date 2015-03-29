@@ -1,0 +1,62 @@
+.teacher-title {
+    height: 200px;
+    font-size: 50px;
+    line-height: 200px;
+    padding-left: 600px;
+    font-weight: bold;
+}
+.teacher-image-frame {
+    position: absolute;
+    display: inline-block;
+    width: 300px;
+    height: 200px;
+    transition-duration: 0.5s;
+}
+.teacher-image {
+    transition-duration: 0.5s;
+    transition-delay: 0.05s;
+}
+.teacher-image-frame:hover {
+    transition-duration: 0.5s;
+}
+.teacher-image:hover {
+    transition-duration: 0.5s;
+    transition-delay: 0.05s;
+}
+
+/* Crispy */
+#crispy-image-frame {
+    margin-top: -100px;
+    margin-left: 100px;
+}
+#crispy-image {
+    width: 700px;
+    margin-left: -200px;
+    margin-top: -40px;
+}
+#crispy-image-frame:hover {
+    width: 690px;
+    height: 460px;
+}
+#crispy-image:hover {
+    margin-left: -10px;
+    margin-top: 0;
+}
+
+/* vocal teacher */
+#vocal-teacher-image-frame {
+    margin-top: -100px;
+    margin-left: 100px;
+}
+#vocal-teacher-image {
+    width: 400px;
+    margin-top: -70px;
+    margin-left: -20px;
+}
+#vocal-teacher-image-frame:hover {
+    width: 400px;
+    height: 430px;
+}
+#vocal-teacher-image:hover {
+    margin: 0;
+}
