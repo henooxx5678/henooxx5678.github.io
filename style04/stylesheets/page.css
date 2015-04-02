@@ -27,7 +27,7 @@ header .title-box {
     padding: 50px;
     width: calc(100% - 100px);
     min-height: 800px;
-    background-color: rgba(250, 250, 250, 0.9);
+    background-color: rgba(250, 250, 250, 0.85);
     overflow: hidden;
 }
 .container .intro-frame {
