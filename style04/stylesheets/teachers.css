@@ -1,4 +1,5 @@
 .teacher-frame p {
+    padding-top: 20px;
     padding-bottom: 50px;
 }
 .teacher-frame table {
@@ -6,7 +7,6 @@
 }
 
 .teacher-title {
-    margin: 0 -100px;
     width: 100%;
     height: 200px;
     font-size: 50px;
@@ -14,11 +14,12 @@
     font-weight: bold;
     text-align: right;
 }
+.teacher-image-pusher {
+    width: 300px;
+    height: 200px;
+}
 .teacher-image-frame {
-    margin-top: -100px;
-    margin-left: 100px;
     position: absolute;
-    display: inline-block;
     width: 300px;
     height: 200px;
     transition-duration: 0.5s;
@@ -77,6 +78,20 @@
 #little-worm-image:hover {
     margin-top: -50px;
     margin-left: -20px;
+}
+
+/* Mr. Wu */
+#mr-wu-image {
+    width: 350px;
+    margin-top: -20px;
+    margin-left: -40px;
+}
+#mr-wu-image-frame:hover {
+    width: 350px;
+    height: 285px;
+}
+#mr-wu-image:hover {
+    margin: 0;
 }
 
 /* Mr. Lu */
