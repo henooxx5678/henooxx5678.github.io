@@ -16,6 +16,7 @@ p {
 .data-frame {
     margin-bottom: 30px;
     font-size: 20px;
+    line-height: 35px;
 }
 header {
     height: 90px;

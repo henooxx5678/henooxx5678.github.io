@@ -5,9 +5,9 @@
     margin: 0 auto;
     margin-bottom: 40px;
 }
-.apply-frame {
-    margin: 0 auto;
-    display: table;
+.license-frame {
+    width: 100%;
+    height: 400px;
 }
 .question {
     display: block;
