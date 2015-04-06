@@ -36,7 +36,7 @@ header .title-box {
     padding: 50px;
     width: calc(100% - 100px);
     min-height: 800px;
-    background-color: rgba(250, 250, 250, 0.85);
+    background-color: rgba(250, 250, 250, 0.7);
     overflow: hidden;
 }
 .container .content {
@@ -52,4 +52,9 @@ header .title-box {
     -o-animation: page-content-fade-in 0.8s;
     -moz-animation: page-content-fade-in 0.8s;
     -webkit-animation: page-content-fade-in 0.8s;
+}
+.main-background {
+    position: fixed;
+    top: -80px;
+    z-index: -99;
 }

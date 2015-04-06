@@ -1,6 +1,8 @@
 .teacher-discription {
     padding-top: 20px;
     padding-bottom: 50px;
+    font-size: 18px;
+    line-height: 26px;
 }
 .teacher-frame table {
     width: 100%;
