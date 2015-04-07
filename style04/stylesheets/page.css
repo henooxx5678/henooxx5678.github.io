@@ -20,7 +20,8 @@ p {
 }
 header {
     height: 90px;
-    background: rgba(40, 40, 120, 0.7);
+    background: rgba(80, 80, 150, 0.7);
+    background-image: -webkit-radial-gradient(bottom left, rgba(255,255,255,0.5), brown);
     overflow: hidden;
 }
 header .main-frame {

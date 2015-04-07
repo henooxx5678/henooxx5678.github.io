@@ -1,0 +1,40 @@
+/* ------------------ nav-intro ------------------ */
+@keyframes nav-intro {
+    0% {
+        margin-right: -10px;
+        opacity: 0.2;
+        filter: aphla(opacity=20); /* For IE8 and earlier */
+    }
+    20% {
+        opacity: 0.4;
+        filter: aphla(opacity=40); /* For IE8 and earlier */
+    }
+}
+@-o-keyframes nav-intro {
+    0% {
+        margin-right: -10px;
+        opacity: 0.2;
+    }
+    20% {
+        opacity: 0.4;
+    }
+}
+@-moz-keyframes nav-intro {
+    0% {
+        margin-right: -10px;
+        opacity: 0.2;
+    }
+    20% {
+        opacity: 0.4;
+    }
+}
+@-webkit-keyframes nav-intro {
+    0% {
+        margin-right: -10px;
+        opacity: 0.2;
+    }
+    20% {
+        opacity: 0.4;
+    }
+}
+

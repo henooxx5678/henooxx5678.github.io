@@ -1,0 +1,45 @@
+/* ------------------ big-title-intro ------------------ */
+@keyframes big-title-intro {
+    from {
+        padding-left: 100px;
+        margin-right: -100px;
+        opacity: 0;
+        filter: alpha(opacity=0); /* For IE8 and earlier */
+    }
+}
+@-o-keyframes big-title-intro {
+    from {
+        padding-left: 100px;
+        margin-right: -100px;
+        opacity: 0;
+    }
+}
+@-moz-keyframes big-title-intro {
+    from {
+        padding-left: 100px;
+        margin-right: -100px;
+        opacity: 0;
+    }
+}
+@-webkit-keyframes big-title-intro {
+    from {
+        padding-left: 100px;
+        margin-right: -100px;
+        opacity: 0;
+    }
+}
+
+/* rolling */
+@-webkit-keyframes multi-rolling {
+    0% { margin-left: -100px; }
+    10% { margin-left: -100px; }
+    20% { margin-left: -900px; }
+    30% { margin-left: -900px; }
+    40% { margin-left: -1700px; }
+    50% { margin-left: -1700px; }
+    60% { margin-left: -2500px; }
+    70% { margin-left: -2500px; }
+    80% { margin-left: -3300px; }
+    90% { margin-left: -3300px; }
+    100% { margin-left: -100px; }
+}
