@@ -20,11 +20,11 @@ p {
 }
 header {
     height: 90px;
-    background: #34495e;
-    opacity: 0.8;
+/*    background: #34495e;*/
+/*    opacity: 0.8;*/
 /*    background: rgba(80, 80, 150, 1);*/
-/*    background-color: rgba(160, 0, 0, 0.6);*/
-/*    background-image: -webkit-radial-gradient(bottom left, rgba(255,255,255,0.5), brown);*/
+    background-color: rgba(160, 0, 0, 0.6);
+    background-image: -webkit-radial-gradient(bottom left, rgba(255,255,255,0.5), brown);
     overflow: hidden;
 }
 header .main-frame {
