@@ -4,6 +4,9 @@
     font-size: 18px;
     line-height: 26px;
 }
+.teacher-discription a {
+    font-size: 14px;
+}
 .teacher-frame table {
     width: 100%;
 }
@@ -120,5 +123,19 @@
     height: 430px;
 }
 #vocal-teacher-image:hover {
+    margin: 0;
+}
+
+/* Mr. East */
+#mr-east-image {
+    width: 480px;
+    margin-left: -100px;
+    margin-top: -10px;
+}
+#mr-east-image-frame:hover {
+    width: 480px;
+    height: 360px;
+}
+#mr-east-image:hover {
     margin: 0;
 }
