@@ -1,7 +1,6 @@
-
 .header {
     width: 100%;
-    height: 750px;
+    height: 100vh;
     min-height: 100%;
     position: relative;
     z-index: 0;
@@ -33,7 +32,8 @@
 }
 
 .guide-frame {
-    height: 600px;
+    height: 650px;
+    height: 80vh;
 }
 .guide-frame h1 {
     margin: 5px 180px;
@@ -57,7 +57,7 @@
 .guide-frame .learn-more {
     position: absolute;
     left: 50%;
-    margin-top: 340px;
+    margin-top: 25%;
     margin-left:  -125px;
     width: 250px;
     height: 60px;
