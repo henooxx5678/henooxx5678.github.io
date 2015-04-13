@@ -4,36 +4,52 @@
     min-height: 100%;
     position: relative;
     z-index: 0;
+    background-image: url(../images/index-header-bg.jpg);
+    background-size: 50vw;
+    box-shadow: 0 10px 50px black;
 }
 .header .logo {
-    height: 400px;
+    height: 80vh;
     position: absolute;
-    margin: 15% 10%;
+    margin: 10vh
 }
 .header header {
     height: 250px;
     text-align: center;
     font-size: 30px;
 }
-.header header h1 {
-    padding-top: 100px;
+.big-title h1 {
+    text-align: center;
+    font-weight: bold;
+    font-family: Arial;
+    font-size: 5vw;
 }
-
+.big-title h1 #song {
+    font-family: "Comic Sans MS";
+}
+.big-title h2 {
+    text-align: center;
+    font-size: 2.4vw;
+}
 .big-title {
     position: absolute;
-    margin-top: 25%;
-    margin-left: 450px;
+    margin-top: 20%;
+    left: 68%;
+    margin-left: -18vw;
     font-size: 25px;
+    color: black;   
     overflow: hidden;
+/*
     animation: big-title-intro 0.7s;
     -o-animation: big-title-intro 0.7s;
     -moz-animation: big-title-intro 0.7s;
     -webkit-animation: big-title-intro 0.7s;
+*/
 }
 
 .guide-frame {
     height: 650px;
-    height: 80vh;
+    height: 100vh;
 }
 .guide-frame h1 {
     margin: 5px 180px;
@@ -57,7 +73,7 @@
 .guide-frame .learn-more {
     position: absolute;
     left: 50%;
-    margin-top: 25%;
+    margin-top: 30%;
     margin-left:  -125px;
     width: 250px;
     height: 60px;
