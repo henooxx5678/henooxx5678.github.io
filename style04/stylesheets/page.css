@@ -13,6 +13,11 @@ p {
     font-size: 20px;
     width: 100%;
 }
+.title-box {
+    margin-top: 20px;
+    margin-left: 20px;
+    display: table;
+}
 .data-frame {
     margin-bottom: 30px;
     font-size: 20px;
