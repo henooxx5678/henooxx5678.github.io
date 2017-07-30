@@ -1,10 +1,10 @@
-.teacher-discription {
+.teacher-description {
     padding-top: 20px;
     padding-bottom: 50px;
     font-size: 18px;
     line-height: 26px;
 }
-.teacher-discription a {
+.teacher-description a {
     font-size: 14px;
 }
 .teacher-frame table {
@@ -66,6 +66,34 @@
     height: 450px;
 }
 #mr-strong-image:hover {
+    margin: 0;
+}
+
+/* Mr. Jan */
+#mr-jan-image {
+    width: 350px;
+    margin-left: -30px;
+    margin-top: -30px;
+}
+#mr-jan-image-frame:hover {
+    width: 350px;
+    height: 500px;
+}
+#mr-jan-image:hover {
+    margin: 0;
+}
+
+/* Ray Chang */
+#ray-image {
+    width: 350px;
+    margin-top: -50px;
+    margin-left: -20px;
+}
+#ray-image-frame:hover {
+    width: 350px;
+    height: 350px;
+}
+#ray-image:hover {
     margin: 0;
 }
 
