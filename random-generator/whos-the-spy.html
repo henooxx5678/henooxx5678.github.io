@@ -7,7 +7,10 @@
 </head>
 <body>
     <form action"" method="get">
-        玩家數量：
+        <select id='amount-select' name="amountSelecting" onchange="if( this.selectedIndex ) amountSelect(this.form);">
+            <option value="-1">---</option>
+        </select>
+        <br>玩家數量：
         <input type="number" name="playerAmount" value="">
         <br>臥底數量：
         <input type="number" name="spyAmount" value="">
@@ -29,6 +32,18 @@
     </p>
 
     <script lang="javascript">
+        var selAmount = [
+            [3, 1, 0],
+            [4, 1, 0],
+            [5, 1, 1],
+            [6, 2, 1],
+            [7, 2, 1],
+            [8, 2, 1],
+            [9, 2, 1],
+            [10, 3, 1],
+            [11, 3, 1],
+            [12, 3, 1]
+        ];
         var wordLib = [
             ['噴射機', '滑翔翼', '老鷹', '戰鬥機', '直升機', '神雕'],
             ['老鷹', '禿鷹', '麻雀', '神雕', '鴿子', '鴨子', '公雞', '母雞'],
@@ -54,8 +69,23 @@
         var yourId;
         var wordResult = { normal: '', spy: '' };
 
+        // init
+        let theSelect = document.getElementById('amount-select');
+        for (let i = 0; i < selAmount.length; i++) {
+            let theOption = document.createElement('option');
+            theOption.value = i;
+            theOption.innerHTML = '玩家數量：'+selAmount[i][0]+'｜臥底數量：'+selAmount[i][1]+'｜路人數量：'+selAmount[i][2]
+            theSelect.appendChild(theOption);
+        }
 
-        function onSubmit(form) {
+
+        function amountSelect (form) {
+            form.playerAmount.value = selAmount[form.amountSelecting.value][0];
+            form.spyAmount.value = selAmount[form.amountSelecting.value][1];
+            form.passerAmount.value = selAmount[form.amountSelecting.value][2];
+        }
+
+        function onSubmit (form) {
             playerAmount = typeof form.playerAmount.value == 'number'? form.playerAmount.value : parseInt(form.playerAmount.value);
             spyAmount = typeof form.spyAmount.value == 'number'? form.spyAmount.value : parseInt(form.spyAmount.value);
             passerAmount = typeof form.passerAmount.value == 'number'? form.passerAmount.value : parseInt(form.passerAmount.value);
@@ -91,7 +121,7 @@
             document.getElementById('identity-message').innerHTML = '你的身份為：' + yourId;
         }
 
-        function drawWords() {
+        function drawWords () {
             let theWord;
             let i = myRandom(seedCode * wordLib.length + 87, wordLib.length);
             let j = myRandom(seedCode * wordLib[i].length + 877, wordLib[i].length);
@@ -111,11 +141,11 @@
             document.getElementById('word-message').innerHTML = '題目：' + theWord;
         }
 
-        function showResult() {
+        function showResult () {
             console.log(idResult, wordResult);
         }
 
-        function myRandom(seed, range) {
+        function myRandom (seed, range) {
             var x = Math.sin(seed) + 1;
             x = x * 100000;
             x = x - Math.floor(x);
