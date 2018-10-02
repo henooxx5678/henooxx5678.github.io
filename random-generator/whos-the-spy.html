@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <title>誰是臥底</title>
+</head>
+<body>
+    <form action"" method="get">
+        玩家數量：
+        <input type="number" name="playerAmount" value="">
+        <br>臥底數量：
+        <input type="number" name="spyAmount" value="">
+        <br>路人數量：
+        <input type="number" name="passerAmount" value="">
+        <br>你的排序：
+        <input type="number" name="playerNumber" value="">
+        <br>種子碼：
+        <input type="number" name="seedCode" value="">
+        <br>
+        <input type="button" name="submit" value="提交" onclick="onSubmit(this.form)">
+    </form>
+
+    <p id="identity-message">
+        你的身份為：
+    </p>
+    <p id="word-message">
+        題目：
+    </p>
+
+    <script lang="javascript">
+        var wordLib = [
+            ['噴射機', '滑翔翼', '老鷹', '戰鬥機', '直升機', '神雕'],
+            ['老鷹', '禿鷹', '麻雀', '神雕', '鴿子', '鴨子', '公雞', '母雞'],
+            ['公雞', '母雞', '鴨子', '天鵝', '鴕鳥'],
+            ['汽車', '摩托車', '蒸汽火車', '電聯車', '磁浮列車'],
+            ['油罐車', '貨車', '垃圾車', '回收車', '電子花車'],
+            ['計程車', '公車', '捷運', '火車', '高鐵'],
+            ['包子', '饅頭', '水餃', '燒賣', '鍋貼'],
+            ['烤箱', '微波爐', '電鍋', '電磁爐', '烤麵包機'],
+            ['餅乾', '蛋糕', '麵包', '奶油'],
+            ['咖啡', '啤酒', '紅茶', '抹茶', '可可'],
+            ['鯊魚', '鯨魚', '海豚', '深海大烏賊', '食人魚'],
+            ['麥當勞', '肯得基', '漢堡王', '摩斯漢堡', '丹丹漢堡'],
+            ['時鐘', '手錶', '懷錶', '碼表']
+        ];
+        var playerAmount;
+        var normalAmount;
+        var spyAmount;
+        var passerAmount;
+        var playerNumber;
+        var seedCode;
+        var idResult = [];
+        var yourId;
+        var wordResult = { normal: '', spy: '' };
+
+
+        function onSubmit(form) {
+            playerAmount = typeof form.playerAmount.value == 'number'? form.playerAmount.value : parseInt(form.playerAmount.value);
+            spyAmount = typeof form.spyAmount.value == 'number'? form.spyAmount.value : parseInt(form.spyAmount.value);
+            passerAmount = typeof form.passerAmount.value == 'number'? form.passerAmount.value : parseInt(form.passerAmount.value);
+            playerNumber = typeof form.playerNumber.value == 'number'? form.playerNumber.value : parseInt(form.playerNumber.value);
+            seedCode = typeof form.seedCode.value == 'number'? form.seedCode.value : parseInt(form.seedCode.value);
+            normalAmount = playerAmount - spyAmount - passerAmount;
+
+            drawId();
+            drawWords();
+        }
+
+        function drawId () {
+            var idName = ['平民', '臥底', '路人'];
+            var idCards = [normalAmount, spyAmount, passerAmount];
+
+            if (playerAmount < 3 || spyAmount < 1 || normalAmount < 1) {
+                alert('Error');
+                return null;
+            }
+
+            for (let cardsLeft = playerAmount; cardsLeft > 0; cardsLeft--) {
+                let theRand = myRandom(seedCode * cardsLeft, cardsLeft);
+                for (let i  = 0; i < idCards.length; i++) {
+                    theRand -= idCards[i];
+                    if (theRand < 0) {
+                        idCards[i]--;
+                        idResult.push(idName[i]);
+                        break;
+                    }
+                }
+            }
+            yourId = idResult[playerNumber - 1];
+            document.getElementById('identity-message').innerHTML = '你的身份為：' + yourId;
+        }
+
+        function drawWords() {
+            let theWord;
+            let i = myRandom(seedCode * wordLib.length + 87, wordLib.length);
+            let j = myRandom(seedCode * wordLib[i].length + 877, wordLib[i].length);
+            let k = myRandom(seedCode * wordLib[i].length + 8777, wordLib[i].length - 1);
+            k = k < j ? k : k + 1;
+            wordResult.normal = wordLib[i][j];
+            wordResult.spy = wordLib[i][k];
+            if (yourId == '平民') {
+                theWord = wordLib[i][j];
+            }
+            else if (yourId == '臥底') {
+                theWord = wordLib[i][k];
+            }
+            else if (yourId == '路人') {
+                theWord = '無';
+            }
+            document.getElementById('word-message').innerHTML = '題目：' + theWord;
+        }
+
+        function showResult() {
+            console.log(idResult, wordResult);
+        }
+
+        function myRandom(seed, range) {
+            var x = Math.sin(seed) + 1;
+            x = x * 100000;
+            x = x - Math.floor(x);
+            x = x * 1000;
+            return Math.floor(x) % range;
+        }
+
+    </script>
+</body>
+</html>
