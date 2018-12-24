@@ -5,8 +5,43 @@
     <meta charset="utf-8">
     <title>誰是臥底</title>
     <style type="text/css">
+        form {
+            font-size: 32px;
+            text-align: center;
+        }
+        select {
+            display: inline-block;
+            width: 80%;
+            height: 30px;
+
+        }
+        input[type=number] {
+            width: 50%;
+            height: 32px;
+            font-size: 28px;
+        }
+        input[type=button] {
+            display: block;
+            margin: 10px auto;
+            width: 50%;
+            height: 40px;
+            border: 0;
+            background-color: #2ecc71;
+            border-radius: 5px;
+            font-size: 20px;
+        }
+
+        #identity-message {
+            font-size: 20px;
+            text-align: center;
+        }
         #word-message {
             font-size: 30px;
+            text-align: center;
+        }
+        #data-showing {
+            font-size: 16px;
+            text-align: center;
         }
     </style>
 </head>
@@ -111,7 +146,7 @@
                 alert('Error');
                 return null;
             }
-            
+
             idResult = [];
             for (let cardsLeft = playerAmount; cardsLeft > 0; cardsLeft--) {
                 let theRand = myRandom(seedCode * cardsLeft, cardsLeft);
