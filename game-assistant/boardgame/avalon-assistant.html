@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Avalon Assistant 阿瓦隆小助手</title>
+    <style type="text/css">
+        #main-form .normal {
+            display: block;
+            position: relative;
+            margin-bottom: 12px;
+            font-size: 22px;
+        }
+
+        #main-form .normal input[type=number] {
+            width: 32px;
+            height: 22px;
+            font-size: 18px;
+            text-align: center;
+        }
+
+        #main-form .container {
+            display: block;
+            position: relative;
+            padding-left: 35px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            font-size: 22px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* Hide the browser's default checkbox */
+        #main-form .container input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+        /* Create a custom checkbox */
+        #main-form .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 25px;
+            width: 25px;
+            background-color: #eee;
+        }
+
+        /* On mouse-over, add a grey background color */
+        #main-form .container:hover input~.checkmark {
+            background-color: #ccc;
+        }
+
+        /* When the checkbox is checked, add a blue background */
+        #main-form .container input:checked~.checkmark {
+            background-color: #039fc9;
+        }
+
+        /* Create the checkmark/indicator (hidden when not checked) */
+        #main-form .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        /* Show the checkmark when checked */
+        #main-form .container input:checked~.checkmark:after {
+            display: block;
+        }
+
+        /* Style the checkmark/indicator */
+        #main-form .container .checkmark:after {
+            left: 9px;
+            top: 5px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            -webkit-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+        }
+
+        #main-form .button-container {
+            display: none;
+            position: relative;
+            font-size: 22px;
+        }
+        #main-form input[type=button] {
+            background-color: #00b894;
+            position: relative;
+            width: 210px;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            padding: 12px 0;
+            padding-left: 22px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 22px;
+            cursor: pointer;
+        }
+        #main-form input[type=button]:hover {
+            background-color: #16a085;
+        }
+        #main-form .icon {
+            position: absolute;
+            top: 15px;
+            left: 42px;
+            height: 20px;
+            width: 20px;
+        }
+        #main-form .icon-play {
+            box-sizing: border-box;
+            border: solid;
+            border-width: 10px 0 10px 20px;
+            border-color: transparent transparent transparent white;
+        }
+        #main-form .icon-pause {
+            box-sizing: border-box;
+            border: solid white;
+            border-width: 0 7px;
+        }
+        #main-form .icon-stop {
+            background-color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <form id="lang-select-form" action="" method="get">
+        Language:
+        <select name="langSelect" onchange="changeLang()">
+            <option value="1">中文</option>
+            <option value="2">English</option>
+        </select>
+    </form>
+
+    <div style="height: 40px"></div>
+
+    <form id="main-form">
+        <label class="container">
+            <a id="text-percival"></a>
+            <input type="checkbox" name="percival" value="Percival">
+            <span class="checkmark"></span>
+        </label>
+
+        <label class="container">
+            <a id="text-morgana"></a>
+            <input type="checkbox" name="morgana" value="Morgana">
+            <span class="checkmark"></span>
+        </label>
+
+        <label class="container">
+            <a id="text-mordred"></a>
+            <input type="checkbox" name="mordred" value="Mordred">
+            <span class="checkmark"></span>
+        </label>
+
+        <label class="container">
+            <a id="text-oberon"></a>
+            <input type="checkbox" name="oberon" value="Oberon">
+            <span class="checkmark"></span>
+        </label>
+        <br>
+        <label class="normal">
+            <a id="text-waitingTime"></a>
+            <input type="number" name="waitingTime" value="5" min="0" max="10">
+            <a id="text-sec"></a>
+        </label>
+
+        <label class="container">
+            <a id="text-enableCounting"></a>
+            <input type="checkbox" name="enableCounting" value="counting-on">
+            <span class="checkmark"></span>
+        </label>
+
+        <label class="button-container" id="label-play">
+            <input id='button-play' type="button" name="play" value="" onclick="onPlay(this.form)">
+            <span class="icon icon-play"></span>
+        </label>
+        <label class="button-container" id="label-pause">
+            <input id="button-pause" type="button" name="pause" value="" onclick="onPause()">
+            <span class="icon icon-pause"></span>
+        </label>
+        <label class="button-container" id="label-resume">
+            <input id="button-resume" type="button" name="resume" value="" onclick="onResume()">
+            <span class="icon icon-play"></span>
+        </label>
+        <label class="button-container" id="label-stop">
+            <input id="button-stop" type="button" name="stop" value="" onclick="onStop()">
+            <span class="icon icon-stop"></span>
+        </label>
+    </form>
+
+    <p id="script-show"></p>
+
+    <script type="text/javascript">
+        const EN_WORDS = {
+            language: 'en',
+            mainFormText: {
+                percival: 'Percival',
+                morgana: 'Morgana',
+                mordred: 'Mordred',
+                oberon: 'Oberon',
+                waitingTime: 'Waiting Time',
+                sec: 'sec.',
+                enableCounting: 'Enable Counting Down'
+            },
+            buttonText: {
+                play: 'PLAY',
+                pause: 'PAUSE',
+                resume: 'RESUME',
+                stop: 'STOP'
+            },
+            script: {
+                standard: [{
+                    text: 'Everyone close your eyes and extend your hand into a fist in front of you.',
+                    audio: null
+                }, {
+                    text: 'Minions of Mordred, open your eyes and look around so that you know all agents of Evil.',
+                    audio: null
+                }, {
+                    text: 'Minions of Mordred, close your eyes.',
+                    audio: null
+                }, {
+                    text: 'Minions of Mordred, extend your thumb so that Merlin will know of you.',
+                    audio: null
+                }, {
+                    text: 'Merlin, open your eyes and see the agents of Evil.',
+                    audio: null
+                }, {
+                    text: 'Minions of Mordred, put your thumbs down and re-form your hand into a fist.',
+                    audio: null
+                }, {
+                    text: 'Merlin, close your eyes.',
+                    audio: null
+                }, {
+                    text: 'Everyone open your eyes.',
+                    audio: null
+                }],
+                oberonOn: {
+                    type: 'replace',
+                    index: 1,
+                    content: [{
+                        text: 'Minions of Mordred, not Oberon, open your eyes and look around so that you know all agents of Evil.',
+                        audio: null
+                    }]
+                },
+                mordredOn: {
+                    type: 'replace',
+                    index: 3,
+                    content: [{
+                        text: 'Minions of Mordred, not Mordred himself, extend your thumb so that Merlin will know of you.',
+                        audio: null
+                    }]
+                },
+                percivalOn: {
+                    type: 'insert',
+                    index: 7,
+                    content: [{
+                        text: 'Merlin, extend your thumb so that Percival may know of you.',
+                        audio: null
+                    }, {
+                        text: 'Percival, open your eyes so you may know Merlin.',
+                        audio: null
+                    }, {
+                        text: 'Merlin, put your thumb down and form your hand into a fist.',
+                        audio: null
+                    }, {
+                        text: 'Percival, close your eyes.',
+                        audio: null
+                    }]
+                },
+                morganaOn: {
+                    type: 'replace',
+                    index: 7,
+                    content: [{
+                        text: 'Merlin and Morgana, extend your thumb so that Percival may know of you.',
+                        audio: null
+                    }, {
+                        text: 'Percival, open your eyes so you may know Merlin and Morgana.',
+                        audio: null
+                    }, {
+                        text: 'Merlin and Morgana, put your thumb down and form your hand into a fist.',
+                        audio: null
+                    }]
+                }
+            }
+        };
+        const ZH_WORDS = {
+            language: 'zh',
+            mainFormText: {
+                percival: '派西維爾',
+                morgana: '魔甘娜',
+                mordred: '莫德雷德',
+                oberon: '奧伯隆',
+                waitingTime: '等待時間',
+                sec: '秒',
+                enableCounting: '開啟讀秒倒數'
+            },
+            buttonText: {
+                play: '播放語音',
+                pause: '暫停',
+                resume: '繼續',
+                stop: '停止'
+            },
+            script: {
+                standard: [{
+                    text: '所有人閉上眼睛，並將手握拳放在自己的前面。',
+                    audio: null
+                }, {
+                    text: '莫德雷德的爪牙，睜開你們的眼睛，並確認其他邪惡方的玩家為何許人也。',
+                    audio: null
+                }, {
+                    text: '莫德雷德的爪牙，閉上你們的眼睛。',
+                    audio: null
+                }, {
+                    text: '莫德雷德的爪牙，豎起你們的大拇指，好讓梅林知道你們是誰。',
+                    audio: null
+                }, {
+                    text: '梅林，睜開你的眼睛，並確認邪惡方的玩家為何許人也。',
+                    audio: null
+                }, {
+                    text: '莫德雷德的爪牙，收回你們的大拇指，並重新握好你們的拳頭。',
+                    audio: null
+                }, {
+                    text: '梅林，閉上你的眼睛。',
+                    audio: null
+                }, {
+                    text: '天亮惹，所有人睜開眼睛吧！',
+                    audio: null
+                }],
+                oberonOn: {
+                    type: 'replace',
+                    index: 1,
+                    content: [{
+                        text: '莫德雷德的爪牙，除了奧柏隆以外，睜開你們的眼睛，並確認其他邪惡方的玩家為何許人也。',
+                        audio: null
+                    }]
+                },
+                mordredOn: {
+                    type: 'replace',
+                    index: 3,
+                    content: [{
+                        text: '莫德雷德的爪牙，除了莫德雷德本人，豎起你們的大拇指，好讓梅林知道你們是誰。',
+                        audio: null
+                    }]
+                },
+                percivalOn: {
+                    type: 'insert',
+                    index: 7,
+                    content: [{
+                        text: '梅林，豎起你的大拇指，好讓派西維爾知道你是誰。',
+                        audio: null
+                    }, {
+                        text: '派西維爾，睜開你的眼睛，並確認梅林是哪位。',
+                        audio: null
+                    }, {
+                        text: '梅林，收回你的大拇指，並重新握好你那硬硬的拳頭。',
+                        audio: null
+                    }, {
+                        text: '派西維爾，閉上你的眼睛。',
+                        audio: null
+                    }]
+                },
+                morganaOn: {
+                    type: 'replace',
+                    index: 7,
+                    content: [{
+                        text: '梅林及魔甘娜，豎起你們的大拇指，好讓派西維爾知道你們是誰。',
+                        audio: null
+                    }, {
+                        text: '派西維爾，睜開你的眼睛，並確認梅林及魔甘娜是哪兩位。',
+                        audio: null
+                    }, {
+                        text: '梅林及魔甘娜，收回你們的大拇指，並重新握好你們那硬硬的拳頭。',
+                        audio: null
+                    }]
+                }
+            }
+        };
+
+        const WAITING_INDEX = {
+            standard: [1, 4],
+            percivalOn: [1, 4, 8]
+        };
+        const COUNTING_AUDIO;
+
+        var lang;
+        var intervalTime = 1000; // ms
+        var waitingIndex;
+        var playingIndex;
+        var result;
+        var nowPlaying = null;
+        var countingTime;
+
+        changeLang();
+
+        function changeLang() {
+            lang = document.getElementById('lang-select-form').langSelect.value;
+            if (lang == 1) lang = ZH_WORDS;
+            if (lang == 2) lang = EN_WORDS;
+            if (nowPlaying != null) nowPlaying.pause();
+            init();
+        }
+
+        function init() {
+            for (let theKey of Object.keys(lang.mainFormText)) {
+                document.querySelector('#text-' + theKey).innerHTML = lang.mainFormText[theKey];
+            }
+            for (let theKey of Object.keys(lang.buttonText)) {
+                document.querySelector('#button-' + theKey).value = lang.buttonText[theKey];
+            }
+            nowPlaying = null;
+            document.querySelector('#script-show').innerHTML = '';
+            document.getElementById('label-play').style.display = 'inline-block';
+            document.getElementById('label-pause').style.display = 'none';
+            document.getElementById('label-resume').style.display = 'none';
+            document.getElementById('label-stop').style.display = 'none';
+        }
+
+        function onPause() {
+            nowPlaying.pause();
+            document.getElementById('label-pause').style.display = 'none';
+            document.getElementById('label-resume').style.display = 'inline-block';
+        }
+
+        function onResume() {
+            nowPlaying.play();
+            document.getElementById('label-pause').style.display = 'inline-block';
+            document.getElementById('label-resume').style.display = 'none';
+        }
+
+        function onStop() {
+            nowPlaying.pause();
+            init();
+        }
+
+        function onPlay(form) {
+            let percivalIn = form.percival.checked;
+            let morganaIn = form.morgana.checked;
+            let mordredIn = form.mordred.checked;
+            let oberonIn = form.oberon.checked;
+            countingTime = form.waitingTime.value;
+            waitingIndex = percivalIn ? WAITING_INDEX.percivalOn : WAITING_INDEX.standard;
+
+            result = lang.script.standard.slice(0);
+            if (oberonIn) {
+                adjust(result, lang.script.oberonOn);
+            }
+            if (mordredIn) {
+                adjust(result, lang.script.mordredOn);
+            }
+            if (percivalIn) {
+                adjust(result, lang.script.percivalOn);
+            }
+            if (morganaIn && percivalIn) {
+                adjust(result, lang.script.morganaOn);
+            }
+
+            let scriptShow = document.querySelector('#script-show');
+
+            scriptShow.innerHTML = '';
+            document.getElementById('label-play').style.display = 'none';
+            document.getElementById('label-pause').style.display = 'inline-block';
+            document.getElementById('label-stop').style.display = 'inline-block';
+
+            for (let i = 0; i < result.length; i++) {
+                scriptShow.innerHTML += result[i].text + '<br>';
+                if (waitingIndex.includes(i)) {
+                    scriptShow.innerHTML += '&lt; Counting Down &gt;<br>';
+                }
+                result[i].audio.load();
+                result[i].audio.addEventListener('ended', function() {
+                    audioEnd(i);
+                });
+            }
+
+            let timer1 = new Timer(function() {
+                nowPlaying = result[0].audio;
+                result[0].audio.play();
+            }, intervalTime);
+        }
+
+        function audioEnd(index) {
+            let timer1 = new Timer(function() {
+                if (waitingIndex.includes(index)) {
+                    // count down
+                }
+
+                if (index + 1 < result.length) {
+                    let timer2 = new Timer(function() {
+                        playingIndex = index + 1;
+                        nowPlaying = result[playingIndex].audio;
+                        result[playingIndex].audio.play();
+                    }, intervalTime);
+                }
+            }, intervalTime);
+        }
+
+        function adjust(result, adjuster) {
+            if (adjuster.type == 'replace') {
+                for (let i = 0; i < adjuster.content.length; i++) {
+                    result[adjuster.index + i] = adjuster.content[i];
+                }
+            } else if (adjuster.type == 'insert') {
+                result.splice(adjuster.index, 0, ...adjuster.content);
+            }
+        }
+
+        /*==============================================================*/
+        function Timer(callback, delay) {
+            var timerId, start, remaining = delay;
+
+            this.pause = function() {
+                window.clearTimeout(timerId);
+                remaining -= new Date() - start;
+            };
+
+            this.play = function() {
+                start = new Date();
+                window.clearTimeout(timerId);
+                timerId = window.setTimeout(callback, remaining);
+            };
+
+            nowPlaying = this;
+            this.play();
+        }
+    </script>
+</body>
+
+</html>
