@@ -11,14 +11,17 @@
         }
         select {
             display: inline-block;
-            width: 80%;
-            height: 30px;
-
+            width: 60%;
+            height: 40px;
+            margin: 20px 0;
         }
         input[type=number] {
-            width: 50%;
+            width: 60px;
             height: 32px;
             font-size: 28px;
+        }
+        #seeds {
+            width: 150px;
         }
         input[type=button] {
             display: block;
@@ -26,7 +29,7 @@
             width: 50%;
             height: 40px;
             border: 0;
-            background-color: #2ecc71;
+            background: #2ecc71;
             border-radius: 5px;
             font-size: 20px;
         }
@@ -47,6 +50,7 @@
 </head>
 <body>
     <form action"" method="get">
+        Preset:
         <select id='amount-select' name="amountSelecting" onchange="if( this.selectedIndex ) amountSelect(this.form);">
             <option value="-1">---</option>
         </select>
@@ -59,7 +63,7 @@
         <br>你的排序：
         <input type="number" name="playerNumber" value="">
         <br>種子碼：
-        <input type="number" name="seedCode" value="">
+        <input id="seeds" type="number" name="seedCode" value="">
         <br>
         <input type="button" name="submit" value="提交" onclick="onSubmit(this.form)">
     </form>
