@@ -425,24 +425,24 @@
             document.getElementById('label-stop').style.display = 'none';
 
             for (let i = 0; i < EN_WORDS.script.standard.length; i++) {
-                // EN_WORDS.script.standard[i].audio.addEventListener('ended', function () { playNext() });
-                ZH_WORDS.script.standard[i].audio.addEventListener('ended', function () { playNext() });
+                // EN_WORDS.script.standard[i].audio.addEventListener('ended', function () { audioEnd() });
+                ZH_WORDS.script.standard[i].audio.addEventListener('ended', function () { audioEnd() });
             }
             for (let i = 0; i < EN_WORDS.script.oberonOn.content.length; i++) {
-                // EN_WORDS.script.oberonOn.content[i].audio.addEventListener('ended', function () { playNext() });
-                ZH_WORDS.script.oberonOn.content[i].audio.addEventListener('ended', function () { playNext() });
+                // EN_WORDS.script.oberonOn.content[i].audio.addEventListener('ended', function () { audioEnd() });
+                ZH_WORDS.script.oberonOn.content[i].audio.addEventListener('ended', function () { audioEnd() });
             }
             for (let i = 0; i < EN_WORDS.script.mordredOn.content.length; i++) {
-                // EN_WORDS.script.mordredOn.content[i].audio.addEventListener('ended', function () { playNext() });
-                ZH_WORDS.script.mordredOn.content[i].audio.addEventListener('ended', function () { playNext() });
+                // EN_WORDS.script.mordredOn.content[i].audio.addEventListener('ended', function () { audioEnd() });
+                ZH_WORDS.script.mordredOn.content[i].audio.addEventListener('ended', function () { audioEnd() });
             }
             for (let i = 0; i < EN_WORDS.script.percivalOn.content.length; i++) {
-                // EN_WORDS.script.percivalOn.content[i].audio.addEventListener('ended', function () { playNext() });
-                ZH_WORDS.script.percivalOn.content[i].audio.addEventListener('ended', function () { playNext() });
+                // EN_WORDS.script.percivalOn.content[i].audio.addEventListener('ended', function () { audioEnd() });
+                ZH_WORDS.script.percivalOn.content[i].audio.addEventListener('ended', function () { audioEnd() });
             }
             for (let i = 0; i < EN_WORDS.script.morganaOn.content.length; i++) {
-                // EN_WORDS.script.morganaOn.content[i].audio.addEventListener('ended', function () { playNext() });
-                ZH_WORDS.script.morganaOn.content[i].audio.addEventListener('ended', function () { playNext() });
+                // EN_WORDS.script.morganaOn.content[i].audio.addEventListener('ended', function () { audioEnd() });
+                ZH_WORDS.script.morganaOn.content[i].audio.addEventListener('ended', function () { audioEnd() });
             }
             countingAudio.addEventListener('ended', function () {
                 playNext();
