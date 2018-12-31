@@ -176,7 +176,7 @@
 
         <label class="container">
             <a id="text-enableCounting"></a>
-            <input type="checkbox" name="enableCounting" value="counting-on">
+            <input type="checkbox" name="enableCounting" value="counting-on" checked="true">
             <span class="checkmark"></span>
         </label>
 
@@ -313,35 +313,35 @@
             script: {
                 standard: [{
                     text: '所有人閉上眼睛，並將手握拳放在自己的前面。',
-                    audio: null
+                    audio: new Audio('aud/zh-1.mp3')
                 }, {
                     text: '莫德雷德的爪牙，睜開你們的眼睛，並確認其他邪惡方的玩家為何許人也。',
-                    audio: null
+                    audio: new Audio('aud/zh-2.mp3')
                 }, {
                     text: '莫德雷德的爪牙，閉上你們的眼睛。',
-                    audio: null
+                    audio: new Audio('aud/zh-3.mp3')
                 }, {
                     text: '莫德雷德的爪牙，豎起你們的大拇指，好讓梅林知道你們是誰。',
-                    audio: null
+                    audio: new Audio('aud/zh-4.mp3')
                 }, {
                     text: '梅林，睜開你的眼睛，並確認邪惡方的玩家為何許人也。',
-                    audio: null
+                    audio: new Audio('aud/zh-5.mp3')
                 }, {
                     text: '莫德雷德的爪牙，收回你們的大拇指，並重新握好你們的拳頭。',
-                    audio: null
+                    audio: new Audio('aud/zh-6.mp3')
                 }, {
                     text: '梅林，閉上你的眼睛。',
-                    audio: null
+                    audio: new Audio('aud/zh-7.mp3')
                 }, {
                     text: '天亮惹，所有人睜開眼睛吧！',
-                    audio: null
+                    audio: new Audio('aud/zh-8.mp3')
                 }],
                 oberonOn: {
                     type: 'replace',
                     index: 1,
                     content: [{
                         text: '莫德雷德的爪牙，除了奧柏隆以外，睜開你們的眼睛，並確認其他邪惡方的玩家為何許人也。',
-                        audio: null
+                        audio: new Audio('aud/zh_ob-1.mp3')
                     }]
                 },
                 mordredOn: {
@@ -349,7 +349,7 @@
                     index: 3,
                     content: [{
                         text: '莫德雷德的爪牙，除了莫德雷德本人，豎起你們的大拇指，好讓梅林知道你們是誰。',
-                        audio: null
+                        audio: new Audio('aud/zh_mord-1.mp3')
                     }]
                 },
                 percivalOn: {
@@ -357,16 +357,16 @@
                     index: 7,
                     content: [{
                         text: '梅林，豎起你的大拇指，好讓派西維爾知道你是誰。',
-                        audio: null
+                        audio: new Audio('aud/zh_perc-1.mp3')
                     }, {
                         text: '派西維爾，睜開你的眼睛，並確認梅林是哪位。',
-                        audio: null
+                        audio: new Audio('aud/zh_perc-2.mp3')
                     }, {
                         text: '梅林，收回你的大拇指，並重新握好你那硬硬的拳頭。',
-                        audio: null
+                        audio: new Audio('aud/zh_perc-3.mp3')
                     }, {
                         text: '派西維爾，閉上你的眼睛。',
-                        audio: null
+                        audio: new Audio('aud/zh_perc-4.mp3')
                     }]
                 },
                 morganaOn: {
@@ -374,31 +374,32 @@
                     index: 7,
                     content: [{
                         text: '梅林及魔甘娜，豎起你們的大拇指，好讓派西維爾知道你們是誰。',
-                        audio: null
+                        audio: new Audio('aud/zh_morg-1.mp3')
                     }, {
                         text: '派西維爾，睜開你的眼睛，並確認梅林及魔甘娜是哪兩位。',
-                        audio: null
+                        audio: new Audio('aud/zh_morg-2.mp3')
                     }, {
                         text: '梅林及魔甘娜，收回你們的大拇指，並重新握好你們那硬硬的拳頭。',
-                        audio: null
+                        audio: new Audio('aud/zh_morg-3.mp3')
                     }]
                 }
             }
         };
-
         const WAITING_INDEX = {
             standard: [1, 4],
             percivalOn: [1, 4, 8]
         };
-        const COUNTING_AUDIO = null;
+        const COUNTING_MAX = 10;
 
+        var countingAudio = new Audio('aud/count-down.mp3');
         var lang;
-        var intervalTime = 1000; // ms
+        var intervalTime = 500; // ms
         var waitingIndex;
         var playingIndex;
         var result;
         var nowPlaying = null;
         var countingTime;
+        var countingVoiceOn;
 
         changeLang();
 
@@ -417,12 +418,37 @@
             for (let theKey of Object.keys(lang.buttonText)) {
                 document.querySelector('#button-' + theKey).value = lang.buttonText[theKey];
             }
-            nowPlaying = null;
             document.querySelector('#script-show').innerHTML = '';
             document.getElementById('label-play').style.display = 'inline-block';
             document.getElementById('label-pause').style.display = 'none';
             document.getElementById('label-resume').style.display = 'none';
             document.getElementById('label-stop').style.display = 'none';
+
+            for (let i = 0; i < EN_WORDS.script.standard.length; i++) {
+                // EN_WORDS.script.standard[i].audio.addEventListener('ended', function () { playNext() });
+                ZH_WORDS.script.standard[i].audio.addEventListener('ended', function () { playNext() });
+            }
+            for (let i = 0; i < EN_WORDS.script.oberonOn.content.length; i++) {
+                // EN_WORDS.script.oberonOn.content[i].audio.addEventListener('ended', function () { playNext() });
+                ZH_WORDS.script.oberonOn.content[i].audio.addEventListener('ended', function () { playNext() });
+            }
+            for (let i = 0; i < EN_WORDS.script.mordredOn.content.length; i++) {
+                // EN_WORDS.script.mordredOn.content[i].audio.addEventListener('ended', function () { playNext() });
+                ZH_WORDS.script.mordredOn.content[i].audio.addEventListener('ended', function () { playNext() });
+            }
+            for (let i = 0; i < EN_WORDS.script.percivalOn.content.length; i++) {
+                // EN_WORDS.script.percivalOn.content[i].audio.addEventListener('ended', function () { playNext() });
+                ZH_WORDS.script.percivalOn.content[i].audio.addEventListener('ended', function () { playNext() });
+            }
+            for (let i = 0; i < EN_WORDS.script.morganaOn.content.length; i++) {
+                // EN_WORDS.script.morganaOn.content[i].audio.addEventListener('ended', function () { playNext() });
+                ZH_WORDS.script.morganaOn.content[i].audio.addEventListener('ended', function () { playNext() });
+            }
+            countingAudio.addEventListener('ended', function () {
+                playNext();
+            });
+            nowPlaying = null;
+            playingIndex = 0;
         }
 
         function onPause() {
@@ -449,6 +475,7 @@
             let oberonIn = form.oberon.checked;
             countingTime = form.waitingTime.value;
             waitingIndex = percivalIn ? WAITING_INDEX.percivalOn : WAITING_INDEX.standard;
+            countingVoiceOn = form.enableCounting.checked;
 
             result = lang.script.standard.slice(0);
             if (oberonIn) {
@@ -477,10 +504,8 @@
                     scriptShow.innerHTML += '&lt; Counting Down &gt;<br>';
                 }
                 result[i].audio.load();
-                result[i].audio.addEventListener('ended', function() {
-                    audioEnd(i);
-                });
             }
+            countingAudio.muted = !countingVoiceOn;
 
             let timer1 = new Timer(function() {
                 nowPlaying = result[0].audio;
@@ -488,19 +513,24 @@
             }, intervalTime);
         }
 
-        function audioEnd(index) {
+        function audioEnd() {
             let timer1 = new Timer(function() {
-                if (waitingIndex.includes(index)) {
-                    // count down
+                if (waitingIndex.includes(playingIndex)) {
+                    countingAudio.currentTime = COUNTING_MAX - countingTime;
+                    nowPlaying = countingAudio;
+                    countingAudio.play();
                 }
+                else if (playingIndex + 1 < result.length) {
+                    playNext();
+                }
+            }, intervalTime);
+        }
 
-                if (index + 1 < result.length) {
-                    let timer2 = new Timer(function() {
-                        playingIndex = index + 1;
-                        nowPlaying = result[playingIndex].audio;
-                        result[playingIndex].audio.play();
-                    }, intervalTime);
-                }
+        function playNext() {
+            let timer1 = new Timer(function() {
+                playingIndex += 1;
+                nowPlaying = result[playingIndex].audio;
+                result[playingIndex].audio.play();
             }, intervalTime);
         }
 
