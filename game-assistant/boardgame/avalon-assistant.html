@@ -86,12 +86,12 @@
             transform: rotate(45deg);
         }
 
-        #main-form .button-container {
+        .button-container {
             display: none;
             position: relative;
             font-size: 22px;
         }
-        #main-form input[type=button] {
+        input[type=button] {
             background-color: #00b894;
             position: relative;
             width: 210px;
@@ -105,35 +105,35 @@
             font-size: 22px;
             cursor: pointer;
         }
-        #main-form input[type=button]:hover {
+        input[type=button]:hover {
             background-color: #16a085;
         }
-        #main-form .icon {
+        .icon {
             position: absolute;
             top: 15px;
             left: 42px;
             height: 20px;
             width: 20px;
         }
-        #main-form .icon-play {
+        .icon-play {
             box-sizing: border-box;
             border: solid;
             border-width: 10px 0 10px 20px;
             border-color: transparent transparent transparent white;
         }
-        #main-form .icon-pause {
+        #buttons-form .icon-pause {
             box-sizing: border-box;
             border: solid white;
             border-width: 0 7px;
         }
-        #main-form .icon-stop {
+        #buttons-form .icon-stop {
             background-color: white;
         }
     </style>
 </head>
 
 <body>
-    <form id="lang-select-form" action="" method="get">
+    <form id="lang-select-form" class="scene1" action="" method="get">
         Language:
         <select name="langSelect" onchange="changeLang()">
             <option value="1">中文</option>
@@ -141,9 +141,9 @@
         </select>
     </form>
 
-    <div style="height: 40px"></div>
+    <div class="scene1" style="height: 40px"></div>
 
-    <form id="main-form">
+    <form id="main-form" class="scene1">
         <label class="container">
             <a id="text-percival"></a>
             <input type="checkbox" name="percival" value="Percival">
@@ -184,6 +184,8 @@
             <input id='button-play' type="button" name="play" value="" onclick="onPlay(this.form)">
             <span class="icon icon-play"></span>
         </label>
+    </form>
+    <form id="buttons-form" class="scene2">
         <label class="button-container" id="label-pause">
             <input id="button-pause" type="button" name="pause" value="" onclick="onPause()">
             <span class="icon icon-pause"></span>
@@ -198,7 +200,7 @@
         </label>
     </form>
 
-    <p id="script-show"></p>
+    <p id="script-show" class="scene2"></p>
 
     <script type="text/javascript">
         const EN_WORDS = {
@@ -390,16 +392,48 @@
             percivalOn: [1, 4, 8]
         };
         const COUNTING_MAX = 10;
+        const countingAudio = new Audio('aud/count-down.mp3');
+        const DEFAULT_INTERVAL_TIME = 500;  // ms
 
-        var countingAudio = new Audio('aud/count-down.mp3');
+        /* add ended listener */
+        for (let i = 0; i < EN_WORDS.script.standard.length; i++) {
+            // EN_WORDS.script.standard[i].audio.addEventListener('ended', function () { audioEnd() });
+            ZH_WORDS.script.standard[i].audio.addEventListener('ended', function () { audioEnd() });
+        }
+        for (let i = 0; i < EN_WORDS.script.oberonOn.content.length; i++) {
+            // EN_WORDS.script.oberonOn.content[i].audio.addEventListener('ended', function () { audioEnd() });
+            ZH_WORDS.script.oberonOn.content[i].audio.addEventListener('ended', function () { audioEnd() });
+        }
+        for (let i = 0; i < EN_WORDS.script.mordredOn.content.length; i++) {
+            // EN_WORDS.script.mordredOn.content[i].audio.addEventListener('ended', function () { audioEnd() });
+            ZH_WORDS.script.mordredOn.content[i].audio.addEventListener('ended', function () { audioEnd() });
+        }
+        for (let i = 0; i < EN_WORDS.script.percivalOn.content.length; i++) {
+            // EN_WORDS.script.percivalOn.content[i].audio.addEventListener('ended', function () { audioEnd() });
+            ZH_WORDS.script.percivalOn.content[i].audio.addEventListener('ended', function () { audioEnd() });
+        }
+        for (let i = 0; i < EN_WORDS.script.morganaOn.content.length; i++) {
+            // EN_WORDS.script.morganaOn.content[i].audio.addEventListener('ended', function () { audioEnd() });
+            ZH_WORDS.script.morganaOn.content[i].audio.addEventListener('ended', function () { audioEnd() });
+        }
+        countingAudio.addEventListener('ended', function () {
+            playNext();
+        });
+
+        var scene1s = [...document.querySelectorAll('.scene1')];
+        var scene1sDisplay = []
         var lang;
-        var intervalTime = 500; // ms
+        var intervalTime = DEFAULT_INTERVAL_TIME;
         var waitingIndex;
         var playingIndex;
         var result;
-        var nowPlaying = null;
+        var nowPlaying;
         var countingTime;
         var countingVoiceOn;
+
+        for (let elem of scene1s) {
+            scene1sDisplay.push(elem.style.display);
+        }
 
         changeLang();
 
@@ -412,6 +446,14 @@
         }
 
         function init() {
+            intervalTime = DEFAULT_INTERVAL_TIME;
+            waitingIndex = null;
+            playingIndex = 0;
+            result = null;
+            nowPlaying = null;
+            countingTime = 0;
+            countingVoiceOn = null;
+
             for (let theKey of Object.keys(lang.mainFormText)) {
                 document.querySelector('#text-' + theKey).innerHTML = lang.mainFormText[theKey];
             }
@@ -425,30 +467,31 @@
             document.getElementById('label-stop').style.display = 'none';
 
             for (let i = 0; i < EN_WORDS.script.standard.length; i++) {
-                // EN_WORDS.script.standard[i].audio.addEventListener('ended', function () { audioEnd() });
-                ZH_WORDS.script.standard[i].audio.addEventListener('ended', function () { audioEnd() });
+                // EN_WORDS.script.standard[i].audio.load();
+                ZH_WORDS.script.standard[i].audio.load();
             }
             for (let i = 0; i < EN_WORDS.script.oberonOn.content.length; i++) {
-                // EN_WORDS.script.oberonOn.content[i].audio.addEventListener('ended', function () { audioEnd() });
-                ZH_WORDS.script.oberonOn.content[i].audio.addEventListener('ended', function () { audioEnd() });
+                // EN_WORDS.script.oberonOn.content[i].audio.load();
+                ZH_WORDS.script.oberonOn.content[i].audio.load();
             }
             for (let i = 0; i < EN_WORDS.script.mordredOn.content.length; i++) {
-                // EN_WORDS.script.mordredOn.content[i].audio.addEventListener('ended', function () { audioEnd() });
-                ZH_WORDS.script.mordredOn.content[i].audio.addEventListener('ended', function () { audioEnd() });
+                // EN_WORDS.script.mordredOn.content[i].audio.load();
+                ZH_WORDS.script.mordredOn.content[i].audio.load();
             }
             for (let i = 0; i < EN_WORDS.script.percivalOn.content.length; i++) {
-                // EN_WORDS.script.percivalOn.content[i].audio.addEventListener('ended', function () { audioEnd() });
-                ZH_WORDS.script.percivalOn.content[i].audio.addEventListener('ended', function () { audioEnd() });
+                // EN_WORDS.script.percivalOn.content[i].audio.load();
+                ZH_WORDS.script.percivalOn.content[i].audio.load();
             }
             for (let i = 0; i < EN_WORDS.script.morganaOn.content.length; i++) {
-                // EN_WORDS.script.morganaOn.content[i].audio.addEventListener('ended', function () { audioEnd() });
-                ZH_WORDS.script.morganaOn.content[i].audio.addEventListener('ended', function () { audioEnd() });
+                // EN_WORDS.script.morganaOn.content[i].audio.load();
+                ZH_WORDS.script.morganaOn.content[i].audio.load();
             }
-            countingAudio.addEventListener('ended', function () {
-                playNext();
-            });
-            nowPlaying = null;
-            playingIndex = 0;
+            countingAudio.load();
+
+            /* Show Scene1 */
+            for (let i = 0; i < scene1s.length; i++) {
+                scene1s[i].style.display = scene1sDisplay[i];
+            }
         }
 
         function onPause() {
@@ -507,8 +550,13 @@
             }
             countingAudio.muted = !countingVoiceOn;
 
+            for (let elem of scene1s) {
+                elem.style.display = 'none';
+            }
+
             let timer1 = new Timer(function() {
                 nowPlaying = result[0].audio;
+                console.log('play no.0');
                 result[0].audio.play();
             }, intervalTime);
         }
@@ -518,6 +566,7 @@
                 if (waitingIndex.includes(playingIndex)) {
                     countingAudio.currentTime = COUNTING_MAX - countingTime;
                     nowPlaying = countingAudio;
+                    console.log('play count down');
                     countingAudio.play();
                 }
                 else if (playingIndex + 1 < result.length) {
@@ -530,6 +579,7 @@
             let timer1 = new Timer(function() {
                 playingIndex += 1;
                 nowPlaying = result[playingIndex].audio;
+                console.log('play no.'+playingIndex);
                 result[playingIndex].audio.play();
             }, intervalTime);
         }
