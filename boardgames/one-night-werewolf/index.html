@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>一夜終極狼人殺</title>
+    </head>
+    <body>
+        <form id="lang-select-form" action="" method="get">
+            Language:
+            <select name="langSelect" onchange="game.changeLang()">
+                <option value="zh">中文</option>
+                <option value="en">English</option>
+            </select>
+        </form>
+
+        <br>
+
+        <div class="scene1">
+            <form id="room-selecting-form" action="" method="get" onsubmit="console.log(this.form)">
+                <button class="text-sentence-createNewRoom" type="button" name="createNewRoom()" onclick="createNewRoom()"></button>
+                <span>or</span>
+                <span class="text-sentence-inputRoomNum"></span>
+                <input type="text" name="roomNum" value="">
+                <button class="text-sentence-join" type="button" name="joinRoom" onclick="joinOtherRoom(this.form)"></button>
+            </form>
+        </div>
+
+        <div class="scene2 scene3">
+            <span class="text-sentence-currentRoomNum"></span>
+            <span class="text-show-roomNum"></span>
+        </div>
+
+        <div class="scene2">
+            <form id="playerNo-selecting-form" action="" method="get">
+                <span class="text-sentence-selectPlayerNo"></span>
+                <select name="playerNo"></select>
+                <button class="text-sentence-start" type="button" name="startButton" onclick="start(this.form)"></button>
+            </form>
+        </div>
+
+        <div class="scene3">
+            <span class="text-sentence-yourPlayerNoIs"></span>
+            <span class="text-show-playerNo"></span>
+            <br>
+            <span class="text-sentence-yourIdIs"></span>
+            <span class="text-show-yourChar"></span>
+        </div>
+
+
+        <script type="text/javascript">
+            const CODE_32 = [
+                '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+                'B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M',
+                'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
+                'Y', 'Z'
+            ];
+            const CHAR_IN_13BIT = ['werewolf', 'seer', 'robber', 'troublemaker', 'tanner', 'drunk', 'hunter', 'mason', 'insomniac', 'minion', 'doppelganger', 'villagers']; // werewolf: 0 for 1 wolf, 1 for 2 wolf; villagers 2-bit for 0-3
+            const ID_SEQ_FOR_PCODE = ['robber', 'troublemaker', 'drunk', 'doppelganger', 'doppelganger-troublemaker'];
+            const WORDS = {
+                en: {
+                    lang: 'en',
+                    char: {
+                        'werewolf': 'WEREWOLF',
+                        'seer': 'SEER',
+                        'robber': 'ROBBER',
+                        'troublemaker': 'TROUBLEMAKER',
+                        'tanner': 'TANNER',
+                        'drunk': 'DRUNK',
+                        'hunter': 'HUNTER',
+                        'mason': 'MASON',
+                        'insomniac': 'INSOMNIAC',
+                        'minion': 'MINION',
+                        'doppelganger': 'DOPPELGANGER',
+                        'villager': 'VILLAGER'
+                    },
+                    statement: {
+                        'werewolf': '',
+                        'seer': '',
+                        'robber': '',
+                        'troublemaker': '',
+                        'tanner': '',
+                        'drunk': '',
+                        'hunter': '',
+                        'mason': '',
+                        'insomniac': '',
+                        'minion': '',
+                        'doppelganger': '',
+                        'villager': ''
+                    },
+                    sentence: {
+                        createNewRoom: 'Create A New Room',
+                        inputRoomNum: 'Input Room Number: ',
+                        join: 'Join',
+                        currentRoomNum: 'Current Room Number: ',
+                        host: 'Host',
+                        guest: 'Guest',
+                        selectPlayerNo: 'Select Your Player No.: ',
+                        start: 'Start',
+                        yourPlayerNoIs: 'Your Player No. Is: ',
+                        yourIdIs: 'Your Identity Is: ',
+                        yourNewIdIs: 'Your <b>New</b> Identity Is: '    // for ROBBER, DRUNK & INSOMNIAC
+
+                    }
+                },
+                zh: {
+                    lang: 'zh',
+                    char: {
+                        'werewolf': '狼人',
+                        'seer': '預言家',
+                        'robber': '強盜',
+                        'troublemaker': '搗蛋鬼',
+                        'tanner': '皮匠',
+                        'drunk': '酒鬼',
+                        'hunter': '獵人',
+                        'mason': '守夜人',
+                        'insomniac': '失眠者',
+                        'minion': '爪牙',
+                        'doppelganger': '化身幽靈',
+                        'villager': '村民'
+                    },
+                    statement: {
+                        'werewolf': '',
+                        'seer': '',
+                        'robber': '',
+                        'troublemaker': '',
+                        'tanner': '',
+                        'drunk': '',
+                        'hunter': '',
+                        'mason': '',
+                        'insomniac': '',
+                        'minion': '',
+                        'doppelganger': '',
+                        'villager': ''
+                    },
+                    sentence: {
+                        createNewRoom: '創建新房間',
+                        inputRoomNum: '輸入房號：',
+                        join: '加入',
+                        currentRoomNum: '當前房號：',
+                        host: '房主',
+                        guest: '房客',
+                        selectPlayerNo: '選擇你的排序：',
+                        start: '開始遊戲',
+                        yourPlayerNoIs: '你的排序為：',
+                        yourIdIs: '你的身分為：',
+                        yourNewIdIs: '你的<b>新</b>身分為'    // for ROBBER, DRUNK & INSOMNIAC
+
+                    }
+                }
+            }
+
+            var game = {
+                changeLang: function () {
+                    game.lang = document.getElementById('lang-select-form').langSelect.value;
+                    game.setWords();
+                },
+                setWords: function () {
+                    let textTypes = ['char', 'statement', 'sentence'];
+                    for (let theType of textTypes) {
+                        for (let theKey of Object.keys( WORDS[game.lang][theType] )) {
+                            let theElem = document.querySelector('.text-' + theType + '-' + theKey);
+                            if (theElem != undefined) {
+                                theElem.innerHTML = WORDS[game.lang][theType][theKey];
+                            }
+                        }
+                    }
+                }
+            };
+
+            init();
+
+            function init() {
+                game.lang = null;
+                game.roomNum = null; // 4-digit base-32 number (20 bits, 13 for char_in, 7 for random)
+                game.charInCode = null;
+                game.playersChar = [];
+                game.unusedChar = [];
+                game.playerAmount = 0;
+                game.playerNo = 0;
+                game.doppelgangerOn = null;
+
+                for (let theForm of document.querySelectorAll('form')) {
+                    theForm.reset();
+                }
+                game.changeLang();
+            }
+
+            function createNewRoom () {
+                game.charInCode = 0x1E03   // '1,1110,0000,0011'
+                game.playerAmount = playerAmountCount(game.charInCode);
+                let shifter = Math.floor(Math.random() * Math.pow(2, 7));
+                let charInCodeShifted = (game.charInCode + shifter) % Math.pow(2, 13);
+                game.roomNum = shifter * Math.pow(2, 13) + charInCodeShifted;
+                takeASeat();
+            }
+
+            function joinOtherRoom(form) {
+                let inputNum = form.roomNum.value.toUpperCase();
+                game.roomNum = code32ToNum(inputNum);
+                let shifter = Math.floor( game.roomNum / Math.pow(2, 13) );
+                let charInCodeShifted = game.roomNum % Math.pow(2, 13);
+                game.charInCode = (charInCodeShifted + (Math.pow(2, 13) - shifter)) % Math.pow(2, 13);
+                takeASeat();
+            }
+
+            function takeASeat() {
+                document.querySelector('.text-show-roomNum').innerHTML = numToCode32(game.roomNum, 4);
+
+                for (let i = 0; i < game.playerAmount; i++) {
+                    let newOption = document.createElement('option');
+                    newOption.value = i + 1;
+                    newOption.innerHTML = i + 1;
+                    document.getElementById('playerNo-selecting-form').playerNo.appendChild(newOption);
+                }
+            }
+
+            function start (form) {
+                game.playerNo = form.playerNo.value;
+                document.querySelector('.text-show-playerNo').innerHTML = game.playerNo;
+
+                drawChar();
+
+                let yourChar = game.playersChar[game.playerNo - 1];
+                document.querySelector('.text-show-yourChar').classList.add('text-char-' + game.playersChar);
+                game.setWords();
+
+
+                if (game.doppelgangerOn) {
+
+                }
+
+                /* Actions */
+                if (yourChar == 'werewolf') {
+
+                }
+                if (yourChar == 'seer') {
+
+                }
+                if (yourChar == 'robber') {
+
+                }
+                if (yourChar == 'troublemaker') {
+
+                }
+            }
+
+            function drawChar () {
+                // convert charInCode to binary string
+                let charCode = game.charInCode.toString(2);
+                while(13 - charCode.length > 0) {
+                    charCode = '0' + charCode;
+                }
+
+                // construct the Character chards deck
+                let charCard = ['werewolf'];
+                for (let i = 0; i <= 11; i++) {
+                    if ( parseInt(charCode[i]) ) {
+                        charCard.push(CHAR_IN_13BIT[i]);
+                    }
+                }
+                console.log()
+                for (let i = 0; i < game.charInCode % Math.pow(2, 2); i++) {
+                    charCard.push('villager');
+                }
+
+                // drawing cards
+                for (let i = 0; i < charCard.length; i++) {
+                    let theRandIndex = myRandom(i * 87 + game.roomNum, charCard.length - i);
+                    game.playersChar.push(charCard[theRandIndex]);
+                    charCard.splice(theRandIndex, 1);   // remove that item
+                }
+                if (game.playersChar.includes('doppelganger')) {
+                    game.doppelgangerOn = true;
+                } else {
+                    game.doppelgangerOn = false;
+                }
+                game.unusedChar = game.playersChar.splice(game.playersChar.length - 3, 3);
+            }
+
+/* ================================================================================================= */
+
+
+            function numToCode32 (num, minDigit) {
+                let result = '';
+                let theNum = num;
+                while (theNum / 32 >= 1) {
+                    result = CODE_32[theNum % 32] + result;
+                    theNum = Math.floor(theNum / 32);
+                }
+                result = CODE_32[theNum] + result;
+
+                while (minDigit - result.length > 0) {
+                    result = '0' + result;
+                }
+                return result;
+            }
+            function code32ToNum (theCode32) {
+                let theReverse = theCode32.split('').reverse();
+                let result = 0;
+
+                for (let i = 0; i < theReverse.length; i++) {
+                    result += CODE_32.indexOf(theReverse[i]) * Math.pow(32, i);
+                }
+                return result;
+            }
+
+            function playerAmountCount (charInCode) {
+                let codeForCount = Math.floor(charInCode / 4).toString(2).split('');
+                let counter = 0;
+                for (let elem of codeForCount) {
+                    if (elem == '1') {
+                        counter++;
+                    }
+                }
+                return counter + (charInCode % 4) + 1 - 3;  // +Amount of Villager, +1 werewolf, -3 cards put at the cneter
+            }
+
+            function myRandom (seed, range) {
+                var x = Math.sin(seed) + 1;
+                x = x * 100000;
+                x = x - Math.floor(x);
+                x = x * 1000 * Math.pow(10, range.toString().length);
+                return Math.floor(x) % range;
+            }
+        </script>
+    </body>
+</html>
