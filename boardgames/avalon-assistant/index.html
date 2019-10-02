@@ -223,35 +223,35 @@
             script: {
                 standard: [{
                     text: 'Everyone close your eyes and extend your hand into a fist in front of you.',
-                    audio: null
+                    audio: new Audio('aud/en-1.mp3')
                 }, {
                     text: 'Minions of Mordred, open your eyes and look around so that you know all agents of Evil.',
-                    audio: null
+                    audio: new Audio('aud/en-2.mp3')
                 }, {
                     text: 'Minions of Mordred, close your eyes.',
-                    audio: null
+                    audio: new Audio('aud/en-3.mp3')
                 }, {
                     text: 'Minions of Mordred, extend your thumb so that Merlin will know of you.',
-                    audio: null
+                    audio: new Audio('aud/en-4.mp3')
                 }, {
                     text: 'Merlin, open your eyes and see the agents of Evil.',
-                    audio: null
+                    audio: new Audio('aud/en-5.mp3')
                 }, {
                     text: 'Minions of Mordred, put your thumbs down and re-form your hand into a fist.',
-                    audio: null
+                    audio: new Audio('aud/en-6.mp3')
                 }, {
                     text: 'Merlin, close your eyes.',
-                    audio: null
+                    audio: new Audio('aud/en-7.mp3')
                 }, {
                     text: 'Everyone open your eyes.',
-                    audio: null
+                    audio: new Audio('aud/en-8.mp3')
                 }],
                 oberonOn: {
                     type: 'replace',
                     index: 1,
                     content: [{
                         text: 'Minions of Mordred, not Oberon, open your eyes and look around so that you know all agents of Evil.',
-                        audio: null
+                        audio: new Audio('aud/en_ob-1.mp3')
                     }]
                 },
                 mordredOn: {
@@ -259,7 +259,7 @@
                     index: 3,
                     content: [{
                         text: 'Minions of Mordred, not Mordred himself, extend your thumb so that Merlin will know of you.',
-                        audio: null
+                        audio: new Audio('aud/en_mord-1.mp3')
                     }]
                 },
                 percivalOn: {
@@ -267,16 +267,16 @@
                     index: 7,
                     content: [{
                         text: 'Merlin, extend your thumb so that Percival may know of you.',
-                        audio: null
+                        audio: new Audio('aud/en_perc-1.mp3')
                     }, {
                         text: 'Percival, open your eyes so you may know Merlin.',
-                        audio: null
+                        audio: new Audio('aud/en_perc-2.mp3')
                     }, {
                         text: 'Merlin, put your thumb down and form your hand into a fist.',
-                        audio: null
+                        audio: new Audio('aud/en_perc-3.mp3')
                     }, {
                         text: 'Percival, close your eyes.',
-                        audio: null
+                        audio: new Audio('aud/en_perc-4.mp3')
                     }]
                 },
                 morganaOn: {
@@ -284,13 +284,13 @@
                     index: 7,
                     content: [{
                         text: 'Merlin and Morgana, extend your thumb so that Percival may know of you.',
-                        audio: null
+                        audio: new Audio('aud/en_morg-1.mp3')
                     }, {
                         text: 'Percival, open your eyes so you may know Merlin and Morgana.',
-                        audio: null
+                        audio: new Audio('aud/en_morg-2.mp3')
                     }, {
                         text: 'Merlin and Morgana, put your thumb down and form your hand into a fist.',
-                        audio: null
+                        audio: new Audio('aud/en_morg-3.mp3')
                     }]
                 }
             }
@@ -397,23 +397,23 @@
 
         /* add ended listener */
         for (let i = 0; i < EN_WORDS.script.standard.length; i++) {
-            // EN_WORDS.script.standard[i].audio.addEventListener('ended', function () { audioEnd() });
+            EN_WORDS.script.standard[i].audio.addEventListener('ended', function () { audioEnd() });
             ZH_WORDS.script.standard[i].audio.addEventListener('ended', function () { audioEnd() });
         }
         for (let i = 0; i < EN_WORDS.script.oberonOn.content.length; i++) {
-            // EN_WORDS.script.oberonOn.content[i].audio.addEventListener('ended', function () { audioEnd() });
+            EN_WORDS.script.oberonOn.content[i].audio.addEventListener('ended', function () { audioEnd() });
             ZH_WORDS.script.oberonOn.content[i].audio.addEventListener('ended', function () { audioEnd() });
         }
         for (let i = 0; i < EN_WORDS.script.mordredOn.content.length; i++) {
-            // EN_WORDS.script.mordredOn.content[i].audio.addEventListener('ended', function () { audioEnd() });
+            EN_WORDS.script.mordredOn.content[i].audio.addEventListener('ended', function () { audioEnd() });
             ZH_WORDS.script.mordredOn.content[i].audio.addEventListener('ended', function () { audioEnd() });
         }
         for (let i = 0; i < EN_WORDS.script.percivalOn.content.length; i++) {
-            // EN_WORDS.script.percivalOn.content[i].audio.addEventListener('ended', function () { audioEnd() });
+            EN_WORDS.script.percivalOn.content[i].audio.addEventListener('ended', function () { audioEnd() });
             ZH_WORDS.script.percivalOn.content[i].audio.addEventListener('ended', function () { audioEnd() });
         }
         for (let i = 0; i < EN_WORDS.script.morganaOn.content.length; i++) {
-            // EN_WORDS.script.morganaOn.content[i].audio.addEventListener('ended', function () { audioEnd() });
+            EN_WORDS.script.morganaOn.content[i].audio.addEventListener('ended', function () { audioEnd() });
             ZH_WORDS.script.morganaOn.content[i].audio.addEventListener('ended', function () { audioEnd() });
         }
         countingAudio.addEventListener('ended', function () {
@@ -467,23 +467,23 @@
             document.getElementById('label-stop').style.display = 'none';
 
             for (let i = 0; i < EN_WORDS.script.standard.length; i++) {
-                // EN_WORDS.script.standard[i].audio.load();
+                EN_WORDS.script.standard[i].audio.load();
                 ZH_WORDS.script.standard[i].audio.load();
             }
             for (let i = 0; i < EN_WORDS.script.oberonOn.content.length; i++) {
-                // EN_WORDS.script.oberonOn.content[i].audio.load();
+                EN_WORDS.script.oberonOn.content[i].audio.load();
                 ZH_WORDS.script.oberonOn.content[i].audio.load();
             }
             for (let i = 0; i < EN_WORDS.script.mordredOn.content.length; i++) {
-                // EN_WORDS.script.mordredOn.content[i].audio.load();
+                EN_WORDS.script.mordredOn.content[i].audio.load();
                 ZH_WORDS.script.mordredOn.content[i].audio.load();
             }
             for (let i = 0; i < EN_WORDS.script.percivalOn.content.length; i++) {
-                // EN_WORDS.script.percivalOn.content[i].audio.load();
+                EN_WORDS.script.percivalOn.content[i].audio.load();
                 ZH_WORDS.script.percivalOn.content[i].audio.load();
             }
             for (let i = 0; i < EN_WORDS.script.morganaOn.content.length; i++) {
-                // EN_WORDS.script.morganaOn.content[i].audio.load();
+                EN_WORDS.script.morganaOn.content[i].audio.load();
                 ZH_WORDS.script.morganaOn.content[i].audio.load();
             }
             countingAudio.load();
