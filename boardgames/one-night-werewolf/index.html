@@ -322,6 +322,58 @@
                 x = x * 1000 * Math.pow(10, range.toString().length);
                 return Math.floor(x) % range;
             }
+
+            // ======= //
+            /*
+            function generateAllPermutations (n) {
+                let list = [];
+                let result = [];
+                for (let i = 0; i < n; i++) {
+                    list.push(i);
+                }
+                perm(list, [], result);
+                return result;
+            }
+            function perm(list, temp, result) {
+                if (list.length == 0) {
+                    result.push(temp.slice(0));
+                }
+                else {
+                    for (let i = 0; i < list.length; i++) {
+                        let x = list.splice(i, 1)[0];
+                        temp.push(x);
+                        perm(list, temp, result);
+                        temp.pop();
+                        list.splice(i, 0, x);
+                    }
+                }
+            }
+            */
+            function getPermutation (index, listSize) {
+                let permCode = numToPermCode(index, listSize);
+                let result = [];
+                let list = [];
+                for (let i = 0; i < listSize; i++) {
+                    list.push(i);
+                }
+                for (let i = 0; i < listSize; i++) {
+                    result[i] = list.splice(permCode[i], 1)[0];
+                }
+                return result;
+            }
+            function numToPermCode (num, listSize) {
+                let result = [];
+                for (let i = 0; i < listSize; i++) {
+                    result[i] = 0;
+                }
+                for (let i = 1; i <= listSize; i++) {
+                    result[listSize - i] = num % i;
+                    num = Math.floor(num / i);
+                    if (num == 0) break;
+                }
+                return result;
+            }
+
         </script>
     </body>
 </html>

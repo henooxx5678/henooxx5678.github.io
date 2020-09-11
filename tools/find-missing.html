@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+
+        <textarea id="pool-area" rows="40" cols="10"></textarea>
+        <textarea id="input-area" rows="40" cols="10"></textarea>
+        <br>
+        <button type="button" onclick="run()">RUN</button>
+        <br>
+        <br>
+        <label>
+            <b>Missing:</b>
+        </label>
+        <p id="output-field"></p>
+
+        <script type="text/javascript">
+
+            var poolArea = document.getElementById('pool-area')
+            poolArea.value = 'test1\ntest2\ntest3'
+
+            function run () {
+
+                let poolItems  = poolArea.value.split('\n')
+                let inputItems = document.getElementById('input-area').value.split('\n')
+                console.log(inputItems)
+
+                let missings = []
+
+                poolItems.forEach((poolItem) => {
+                    let found = false
+                    inputItems.forEach((inputItem) => {
+                        if (poolItem == inputItem) {
+                            found = true
+                        }
+                    })
+                    if (!found) {
+                        missings.push(poolItem)
+                    }
+                })
+
+                document.getElementById('output-field').innerText = missings.join('\n')
+            }
+
+        </script>
+    </body>
+</html>
