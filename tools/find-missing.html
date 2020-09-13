@@ -20,13 +20,18 @@
         <script type="text/javascript">
 
             var poolArea = document.getElementById('pool-area')
-            poolArea.value = 'test1\ntest2\ntest3'
+
+            let defaultPoolRaw = '71070631 71050424 71080307 71030123 71050632 71070613 71080602 71050221 71030130 71050608 71030129 71050206 71050226 71060614 71080338 71050201 71060448 71060623 71040120 71060420 71030107 71070622 71080350 71030109 71060348 71080321 71060616 71030218 71040122 71050109 71060631 71070616 71040130 71070634 71070610 71040233 71060615 71030217 71040347 71070651'
+            defaultPool = defaultPoolRaw.split(' ').sort()
+            poolArea.value = defaultPool.join('\n')
 
             function run () {
 
                 let poolItems  = poolArea.value.split('\n')
                 let inputItems = document.getElementById('input-area').value.split('\n')
-                console.log(inputItems)
+                console.log('===== RUN =====')
+                console.log('Pool: ', poolItems)
+                console.log('Inputs: ', inputItems)
 
                 let missings = []
 
@@ -43,6 +48,7 @@
                 })
 
                 document.getElementById('output-field').innerText = missings.join('\n')
+                console.log('Missing: ', missings)
             }
 
         </script>
