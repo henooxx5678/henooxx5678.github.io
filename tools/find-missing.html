@@ -16,6 +16,10 @@
             <b>Missing:</b>
         </label>
         <p id="output-field"></p>
+        <label>
+            <b>Not In Pool:</b>
+        </label>
+        <p id="not-in-pool-field"></p>
 
         <script type="text/javascript">
 
@@ -34,21 +38,32 @@
                 console.log('Inputs: ', inputItems)
 
                 let missings = []
+                let isInPoolIndices = []
 
                 poolItems.forEach((poolItem) => {
                     let found = false
-                    inputItems.forEach((inputItem) => {
-                        if (poolItem == inputItem) {
+                    for (let i = 0 ; i < inputItems.length ; i++) {
+                        if (poolItem == inputItems[i]) {
                             found = true
+                            isInPoolIndices.push(i)
                         }
-                    })
+                    }
                     if (!found) {
                         missings.push(poolItem)
                     }
                 })
 
+                let notInPool = []
+                for (let i = 0 ; i < inputItems.length ; i++) {
+                    if (!isInPoolIndices.includes(i)) {
+                        notInPool.push(inputItems[i])
+                    }
+                }
+
                 document.getElementById('output-field').innerText = missings.join('\n')
+                document.getElementById('not-in-pool-field').innerText = notInPool.join('\n')
                 console.log('Missing: ', missings)
+                console.log('Not In Pool: ', notInPool)
             }
 
         </script>
