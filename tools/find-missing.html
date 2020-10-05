@@ -6,65 +6,301 @@
     </head>
     <body>
 
-        <textarea id="pool-area" rows="40" cols="10"></textarea>
-        <textarea id="input-area" rows="40" cols="10"></textarea>
+        <textarea id="pool-area" rows="30" cols="10"></textarea>
+        <textarea id="input1-area" rows="30" cols="10"></textarea>
+        <textarea id="input2-area" rows="30" cols="10"></textarea>
+        <textarea id="input3-area" rows="30" cols="10"></textarea>
+        <textarea id="input4-area" rows="30" cols="10"></textarea>
         <br>
         <button type="button" onclick="run()">RUN</button>
         <br>
         <br>
-        <label>
-            <b>Missing:</b>
-        </label>
-        <p id="output-field"></p>
-        <label>
-            <b>Not In Pool:</b>
-        </label>
-        <p id="not-in-pool-field"></p>
+        <div class="output-field">
+            <label>
+                <h2>Inputs 01</h2>
+            </label>
+
+            <label>
+                <b>Missing:</b>
+            </label>
+            <p class="missings-field"></p>
+
+            <label>
+                <b>Duplicated:</b>
+            </label>
+            <p class="duplicated-field"></p>
+
+            <label>
+                <b>Not In Pool:</b>
+            </label>
+            <p class="not-in-pool-field"></p>
+        </div>
+
+        <div class="output-field">
+            <label>
+                <h2>Inputs 02</h2>
+            </label>
+
+            <label>
+                <b>Missing:</b>
+            </label>
+            <p class="missings-field"></p>
+
+            <label>
+                <b>Duplicated:</b>
+            </label>
+            <p class="duplicated-field"></p>
+
+            <label>
+                <b>Not In Pool:</b>
+            </label>
+            <p class="not-in-pool-field"></p>
+        </div>
+
+        <div class="output-field">
+            <label>
+                <h2>Inputs 03</h2>
+            </label>
+
+            <label>
+                <b>Missing:</b>
+            </label>
+            <p class="missings-field"></p>
+
+            <label>
+                <b>Duplicated:</b>
+            </label>
+            <p class="duplicated-field"></p>
+
+            <label>
+                <b>Not In Pool:</b>
+            </label>
+            <p class="not-in-pool-field"></p>
+        </div>
+
+        <div class="output-field">
+            <label>
+                <h2>Inputs 04</h2>
+            </label>
+
+            <label>
+                <b>Missing:</b>
+            </label>
+            <p class="missings-field"></p>
+
+            <label>
+                <b>Duplicated:</b>
+            </label>
+            <p class="duplicated-field"></p>
+
+            <label>
+                <b>Not In Pool:</b>
+            </label>
+            <p class="not-in-pool-field"></p>
+        </div>
+
+        <div class="output-field">
+            <label>
+                <h2>Result</h2>
+            </label>
+
+            <label>
+                <b>Absence:</b>
+            </label>
+            <p id="result-field"></p>
+
+        </div>
+
 
         <script type="text/javascript">
 
-            var poolArea = document.getElementById('pool-area')
+// '71080307 余宗璟,71090330 劉心柔,71050632 劉芷伶,71070613 吳宜蓁,71080602 吳沛涵,71050226 廖亨碩,71060614 廖珈惠,71080338 張云軒,71050129 張正儒,71050624 曾聖翔,71050201 李銘澕,71060623 林珈如,71080332 樂梓酉,71070622 王君蕙,71080350 王善諭,71060607 王柏盛,71080321 程亦嘉,71040122 葉軒廷,71060354 蘇聖欽,71050109 許詠鈞,71080317 謝東穎,71050105 郭浩彬,71060631 鄭馨萍,71070616 鍾興諾,71090320 鍾雅棋,71040130 陳博元,71070610 陳安琪,71040233 陳彥廷,71030217 陳泓維,71070651 高賀君'
+var stuList = {
+    ['71080307']: '余宗璟',
+    ['71090330']: '劉心柔',
+    ['71050632']: '劉芷伶',
+    ['71070613']: '吳宜蓁',
+    ['71080602']: '吳沛涵',
+    ['71050226']: '廖亨碩',
+    ['71060614']: '廖珈惠',
+    ['71080338']: '張云軒',
+    ['71050129']: '張正儒',
+    ['71050624']: '曾聖翔',
+    ['71050201']: '李銘澕',
+    ['71060623']: '林珈如',
+    ['71080332']: '樂梓酉',
+    ['71070622']: '王君蕙',
+    ['71080350']: '王善諭',
+    ['71060607']: '王柏盛',
+    ['71080321']: '程亦嘉',
+    ['71040122']: '葉軒廷',
+    ['71060354']: '蘇聖欽',
+    ['71050109']: '許詠鈞',
+    ['71080317']: '謝東穎',
+    ['71050105']: '郭浩彬',
+    ['71060631']: '鄭馨萍',
+    ['71070616']: '鍾興諾',
+    ['71090320']: '鍾雅棋',
+    ['71040130']: '陳博元',
+    ['71070610']: '陳安琪',
+    ['71040233']: '陳彥廷',
+    ['71030217']: '陳泓維',
+    ['71070651']: '高賀君'
+}
 
-            let defaultPoolRaw = '71080307 71090330 71050632 71070613 71080602 71050226 71060614 71080338 71050129 71050624 71050201 71060623 71080332 71070622 71080350 71060607 71080321 71040122 71060354 71050109 71080317 71050105 71060631 71070616 71090320 71040130 71070610 71040233 71030217 71070651'
-            defaultPool = defaultPoolRaw.split(' ').sort()
-            poolArea.value = defaultPool.join('\n')
+var poolArea = document.getElementById('pool-area')
 
-            function run () {
+let defaultPoolRaw = '71080307 71090330 71050632 71070613 71080602 71050226 71060614 71080338 71050129 71050624 71050201 71060623 71080332 71070622 71080350 71060607 71080321 71040122 71060354 71050109 71080317 71050105 71060631 71070616 71090320 71040130 71070610 71040233 71030217 71070651'
+defaultPool = defaultPoolRaw.split(' ').sort()
+poolArea.value = defaultPool.join('\n')
 
-                let poolItems  = poolArea.value.split('\n')
-                let inputItems = document.getElementById('input-area').value.split('\n')
-                console.log('===== RUN =====')
-                console.log('Pool: ', poolItems)
-                console.log('Inputs: ', inputItems)
+function run () {
 
-                let missings = []
-                let isInPoolIndices = []
+    let poolItems  = poolArea.value.split('\n')
+    let inputFields = [
+        { items: document.getElementById('input1-area').value.split('\n') },
+        { items: document.getElementById('input2-area').value.split('\n') },
+        { items: document.getElementById('input3-area').value.split('\n') },
+        { items: document.getElementById('input4-area').value.split('\n') }
+    ]
 
-                poolItems.forEach((poolItem) => {
-                    let found = false
-                    for (let i = 0 ; i < inputItems.length ; i++) {
-                        if (poolItem == inputItems[i]) {
-                            found = true
-                            isInPoolIndices.push(i)
-                        }
-                    }
-                    if (!found) {
-                        missings.push(poolItem)
-                    }
-                })
+    let outputFields = document.getElementsByClassName('output-field')
+    for (let i = 0 ; i < inputFields.length ; i++) {
+        if (inputFields[i].items.length == 1 && inputFields[i].items[0] == '') {
+            outputFields[i].hidden = true
+            console.log('h')
+        }
+        else {
+            outputFields[i].hidden = false
+        }
+    }
 
-                let notInPool = []
-                for (let i = 0 ; i < inputItems.length ; i++) {
-                    if (!isInPoolIndices.includes(i)) {
-                        notInPool.push(inputItems[i])
-                    }
+    console.log('===== RUN =====')
+    console.log('Pool: ', poolItems)
+    console.log('Inputs1: ', inputFields[0].items)
+    console.log('Inputs2: ', inputFields[1].items)
+    console.log('Inputs3: ', inputFields[2].items)
+    console.log('Inputs4: ', inputFields[3].items)
+
+    let pools = []
+    for (let i = 0 ; i < poolItems.length ; i++) {
+        pools.push({
+            value: poolItems[i],
+            amountFromInputs: [0, 0, 0, 0]
+        })
+    }
+
+    let separatedOutputs = [{
+        missings: [],
+        duplicated: [],
+        notInPool: []
+    },{
+        missings: [],
+        duplicated: [],
+        notInPool: []
+    },{
+        missings: [],
+        duplicated: [],
+        notInPool: []
+    },{
+        missings: [],
+        duplicated: [],
+        notInPool: []
+    }]
+
+    pools.forEach((poolObj) => {
+        inputFields.forEach((inputField, i) => {
+            inputField.items.forEach((item) => {
+                if (poolObj.value == item) {
+                    poolObj.amountFromInputs[i]++
                 }
-
-                document.getElementById('output-field').innerText = missings.join('\n')
-                document.getElementById('not-in-pool-field').innerText = notInPool.join('\n')
-                console.log('Missing: ', missings)
-                console.log('Not In Pool: ', notInPool)
+            })
+            if (poolObj.amountFromInputs[i] == 0) {
+                separatedOutputs[i].missings.push(poolObj.value)
             }
+            else if (poolObj.amountFromInputs[i] > 1) {
+                separatedOutputs[i].duplicated.push({
+                    value: poolObj.value,
+                    amount: poolObj.amountFromInputs[i]
+                })
+            }
+        })
+    })
+
+    inputFields.forEach((inputField, i) => {
+        inputField.items.forEach((item) => {
+            let existInPool = false
+            poolItems.forEach((poolItem) => {
+                if (item == poolItem) {
+                    existInPool = true
+                }
+            })
+            if (!existInPool) {
+                separatedOutputs[i].notInPool.push(item)
+            }
+        })
+    })
+
+    let missingsFields = document.getElementsByClassName('missings-field')
+    let duplicatedFields = document.getElementsByClassName('duplicated-field')
+    let notInPoolFields = document.getElementsByClassName('not-in-pool-field')
+    for (let i = 0 ; i < separatedOutputs.length ; i++) {
+        missingsFields[i].innerText = separatedOutputs[i].missings.join('\n')
+        duplicatedFields[i].innerText = duplicatedToString(separatedOutputs[i].duplicated)
+        notInPoolFields[i].innerText = separatedOutputs[i].notInPool.join('\n')
+    }
+    console.log('separatedOutputs: ', separatedOutputs)
+
+    // ================= result =================
+    let result = []
+
+    pools.forEach((poolObj) => {
+        let abs = [false, false]
+        for (let i = 0 ; i < 2 ; i++) {
+            if (poolObj.amountFromInputs[i * 2] + poolObj.amountFromInputs[i * 2 + 1] == 0) {
+                abs[i] = true
+            }
+        }
+        if (abs[0] || abs[1]) {
+            result.push({
+                name: stuList[poolObj.value],
+                number: poolObj.value,
+                absence: abs,
+                toString: function () {
+                    let abs1Mark = ' 1'
+                    let abs2Mark = ' 2'
+                    if (!this.absence[0]) abs1Mark = ''
+                    if (!this.absence[1]) abs2Mark = ''
+                    return this.name + ' ' + this.number + abs1Mark + abs2Mark
+                }
+            })
+        }
+    })
+
+    let resultField = document.getElementById('result-field')
+    resultField.innerText = ''
+
+    result.forEach((item) => {
+        resultField.innerText += item.toString() + '\n'
+    })
+    console.log(result)
+
+}
+
+function duplicatedToString (duplicatedObj) {
+    let a = []
+    duplicatedObj.forEach((item) => {
+        a.push(item.value + ': ' + item.amount)
+    })
+    return a.join('\n')
+}
+
+let listString = ''
+defaultPool.forEach((item) => {
+    listString += item + ' ' + stuList[item] + '\n'
+});
+
+console.log(listString)
 
         </script>
     </body>
