@@ -280,10 +280,16 @@ function run () {
     let resultField = document.getElementById('result-field')
     resultField.innerText = ''
 
+    let namesString = ''
+    let numbersString = ''
+
     result.forEach((item) => {
         resultField.innerText += item.toString() + '\n'
+        namesString += item.name + '\n'
+        numbersString += item.number + '\n'
     })
-    console.log(result)
+    console.log(namesString)
+    console.log(numbersString)
 
 }
 
@@ -295,6 +301,8 @@ function duplicatedToString (duplicatedObj) {
     return a.join('\n')
 }
 
+
+// show all students list
 let listString = ''
 defaultPool.forEach((item) => {
     listString += item + ' ' + stuList[item] + '\n'
