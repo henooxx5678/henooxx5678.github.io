@@ -153,6 +153,8 @@ let defaultPoolRaw = '71080307 71090330 71050632 71070613 71080602 71050226 7106
 defaultPool = defaultPoolRaw.split(' ').sort()
 poolArea.value = defaultPool.join('\n')
 
+
+
 function run () {
 
     let poolItems  = poolArea.value.split('\n')
@@ -162,6 +164,12 @@ function run () {
         { items: document.getElementById('input3-area').value.split('\n') },
         { items: document.getElementById('input4-area').value.split('\n') }
     ]
+
+    inputFields.forEach((field) => {
+        field.items.forEach((item, i) => {
+            field.items[i] = item.substring(0, 8)
+        })
+    })
 
     let outputFields = document.getElementsByClassName('output-field')
     for (let i = 0 ; i < inputFields.length ; i++) {
@@ -281,11 +289,18 @@ function run () {
 
     let namesString = ''
     let numbersString = ''
+    let itemCounter = 0
 
     result.forEach((item) => {
         resultField.innerText += item.toString() + '\n'
         namesString += item.name + '\n'
         numbersString += item.number + '\n'
+
+        itemCounter++
+        if (itemCounter % 8 == 0) {
+            namesString += '\n'
+            numbersString += '\n'
+        }
     })
     console.log(namesString)
     console.log(numbersString)
